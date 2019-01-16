@@ -36,6 +36,17 @@ class Quote
      * @ORM\Column(type="datetime")
      */
     private $created;
+    
+    
+    /*
+     * Just add auto create time
+     */
+    public function __construct()
+    {
+        $this->createdt = new \DateTime();
+
+    }
+
 
     public function getId(): ?int
     {
