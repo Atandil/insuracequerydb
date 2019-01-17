@@ -43,7 +43,7 @@ class Quote
      */
     public function __construct()
     {
-        $this->createdt = new \DateTime();
+        $this->created = new \DateTime();
 
     }
 
