@@ -45,7 +45,7 @@ class QuoteController extends AbstractController{
         return new Response($json);
     }
     
-    public function edit($id, Request $request) {
+    public function edit($id, Request $request) : Response {
         
         $quote=$this->getDoctrine()
         ->getRepository(Quote::class)
@@ -68,7 +68,7 @@ class QuoteController extends AbstractController{
         ]);
     }
     
-    public function add(Request $request) {
+    public function add(Request $request) : Response {
         
         $quote=new Quote();
         $form = $this->createForm(QuoteType::class, $quote);
@@ -90,5 +90,20 @@ class QuoteController extends AbstractController{
         ]);
         
     }
+    
+    
+     public function delete($id) : Response
+    {
+        $quote=$this->getDoctrine()
+        ->getRepository(Quote::class)
+        ->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($quote);
+        $em->flush();
+
+        return new Response('Sucess - Quote Deleted');
+    }
+
     
 }
