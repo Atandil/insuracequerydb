@@ -1,0 +1,18 @@
+        td.details-control {
+    background: url('/assets/img/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url('/assets/img/details_close.png') no-repeat center center;
+}
+
+   td.edit-control {
+    background: url('/assets/img/edit.svg') no-repeat center center;
+    cursor: pointer;
+}
+
+   td.delete-control {
+    background: url('/assets/img/delete.png') no-repeat center center;
+    cursor: pointer;
+}
