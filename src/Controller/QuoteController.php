@@ -44,38 +44,38 @@ class QuoteController extends AbstractController{
         return new Response($json);
     }
     
-    /*
-    public function operations($slug, Request $request)
-    {
-        $form = $this->createForm(CalcType::class, array());
+    public function edit($id, Request $request) {
+        
+        $quote=$this->getDoctrine()
+        ->getRepository(Quote::class)
+        ->find($id);
+        
+        $form = $this->createForm(QuoteType::class, $quote)
+            ->add('edit', SubmitType::class);
+
+        $form->handleRequest($request);
+        
+        return $this->render('quote/edit.html.twig',[
+            'form' => $form->createView(),
+            'qoute' => $quote
+        ]);
+    }
+    
+    public function add(Request $request) {
+        
+         $form = $this->createForm(QuoteType::class, array())
+            ->add('Add', SubmitType::class);
+
         $form->handleRequest($request);
        
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();   
-         } else {
-          $error= "No input or bad value";
-        }   
-        //clean Operation name to be sure
-        $operationName= 'App\Calculator\Operations\\'  . preg_replace('/[^a-zA-Z]/', '', $slug);
-        if(!class_exists($operationName)) {
-            $error= "Operation $slug is not implemented";
-        }    
-   
-        if(!isset($error)) {
-            try {
-                    $calc = new Calculator;
-                    //Main Calc  - using Class with Operation
-                    $out=$calc->set(new $operationName)->count($data['num1'],$data['num2']);
-                    $result['decimal']=$out;
-                    //binary for integers
-                    $result['binary']= ($out >= 0 && $out < 1000000 && floor( $out ) == $out  )? decbin($out) : '-' ;
-                } catch (\Exception $e) {
-                    $error=  $e->getMessage();
-                }
-        }
-        $result['error']=isset($error) ? $error : '';    
-        return $this->render('calc/index.html.twig', ['result' => $result ]);
+         } 
+        
+         return $this->render('quote/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+        
     }
-     * 
-     */
+    
 }

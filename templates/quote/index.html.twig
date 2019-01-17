@@ -85,13 +85,28 @@ tr.shown td.details-control {
         }
     } );
     
-     // Add event listener for opening and closing details
+     // Add event listener for edit
     $('#table tbody').on('click', 'td.edit-control', function () {
+        var tr = $(this).closest('tr');
+        var data = table.row( tr ).data();
+        var id=data['id'];
+        
+        
+       $.get( "quote/edit/"+id, function( data ) {
+            $( "#result" ).html( data );
+             alert( "Load was performed." );
+             });
+ 
+       
+    } );
+    
+    // Add event listener delete
+    $('#table tbody').on('click', 'td.delete-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
         var data = row.data();
         
-            alert( 'You clicked on '+data['id']+'\'s row' );
+            alert( 'You want to delete '+data['id']+'' );
  
        
     } );
@@ -106,11 +121,12 @@ function format ( d ) {
 {% endblock %}
 
 {% block body %}
+    <div>File source at <a href="https://github.com/Atandil/insuracequerydb">https://github.com/Atandil/insuracequerydb</a></div>
     
     <!-- Should be modal -its jusst for demo -->
     <div id="result"></div>
     
-    <h1>Quote list <a href="#">Add new</a></h1>
+    <h1>Quote list <a href="#" id="add">Add new</a></h1>
 <table id="table" class="display" style="width:100%">
         <thead>
             <tr> 
