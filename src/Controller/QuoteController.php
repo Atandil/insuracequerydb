@@ -2,13 +2,14 @@
 namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+
 use App\Form\QuoteType;
 use App\Entity\Quote;
-use App\Repository\QuoteRepository;
+
 /**
  * Main Quote controller
  */
@@ -50,30 +51,42 @@ class QuoteController extends AbstractController{
         ->getRepository(Quote::class)
         ->find($id);
         
-        $form = $this->createForm(QuoteType::class, $quote)
-            ->add('edit', SubmitType::class);
-
+        $form = $this->createForm(QuoteType::class, $quote);
         $form->handleRequest($request);
+        
+         if ($form->isSubmitted() && $form->isValid()) {
+
+             $this->getDoctrine()->getManager()->flush();
+
+         return new Response('Sucess - Quote edited');
+        }
         
         return $this->render('quote/edit.html.twig',[
             'form' => $form->createView(),
-            'qoute' => $quote
+            'qoute' => $quote,
+            'actionurl' => "quote/edit/$id"
         ]);
     }
     
     public function add(Request $request) {
         
-         $form = $this->createForm(QuoteType::class, array())
-            ->add('Add', SubmitType::class);
-
+        $quote=new Quote();
+        $form = $this->createForm(QuoteType::class, $quote);
         $form->handleRequest($request);
        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();   
-         } 
+         if ($form->isSubmitted() && $form->isValid()) {
+
+             $quote=$form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($quote);
+            $entityManager->flush();
+
+         return new Response('Sucess - Quote Added');
+        }
         
-         return $this->render('quote/edit.html.twig', [
+        return $this->render('quote/edit.html.twig',[
             'form' => $form->createView(),
+            'actionurl' => "quote/add"
         ]);
         
     }

@@ -1,5 +1,45 @@
 {# iside edit #}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Quote Add / Edit</h4>
+            </div>
+            <div class="modal-body">
+                 {{ form_start(form, {'action':actionurl }) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submit">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+            
+<script>
+    $(document).ready(function() {
+     //add/edit modal
+     $("button#submit").click(function(){
+        
+        var actionurl = $("form").attr('action');
+         
+        $.ajax({
+              type: "POST",
+              url: actionurl,
+              data:  $('form').serialize(),
+                success: function(message){
+                    $("#result").html(message)
+                    $("#myModal").modal('hide');
+                    $("#table").DataTable().ajax.reload();
+                },
+                error: function(){
+                alert("Error");
+                }
+            });
+        } );
+    } );
+</script>                
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}

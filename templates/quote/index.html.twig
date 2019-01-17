@@ -1,3 +1,6 @@
+{# I'm not focus on frontend / SEO/ optimalization / inline js/css this is just simple example #}
+
+
 {% extends 'base.html.twig' %}
 
 
@@ -91,14 +94,18 @@ tr.shown td.details-control {
         var data = table.row( tr ).data();
         var id=data['id'];
         
-        
-       $.get( "quote/edit/"+id, function( data ) {
-            $( "#result" ).html( data );
-             alert( "Load was performed." );
-             });
- 
-       
-    } );
+        var url ="quote/edit/"+id;
+        $('.modal-container').load(url,function(result){
+	 $('#myModal').modal({show:true});
+	});
+     } );
+     
+     $('#add').on('click', function () {
+        var url ="quote/add";
+        $('.modal-container').load(url,function(result){
+	 $('#myModal').modal({show:true});
+	});
+     } );
     
     // Add event listener delete
     $('#table tbody').on('click', 'td.delete-control', function () {
@@ -123,10 +130,13 @@ function format ( d ) {
 {% block body %}
     <div>File source at <a href="https://github.com/Atandil/insuracequerydb">https://github.com/Atandil/insuracequerydb</a></div>
     
-    <!-- Should be modal -its jusst for demo -->
-    <div id="result"></div>
+   <div class="modal-container"></div>
+   <div class="alert alert-success" role="alert" id="result"></div>
+   
+    <h1>Quote list</h1>
     
-    <h1>Quote list <a href="#" id="add">Add new</a></h1>
+    <button type="button" class="btn btn-primary" id="add">Add new quote</button><br>
+    
 <table id="table" class="display" style="width:100%">
         <thead>
             <tr> 
