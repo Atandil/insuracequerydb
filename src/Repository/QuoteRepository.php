@@ -47,4 +47,22 @@ class QuoteRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function findAsoc()
+    {
+        return $this->createQueryBuilder('q')
+            ->getQuery()
+            ->getArrayResult();
+        
+    }
+   
+    
+     public function countAll()
+    {
+        return $this->createQueryBuilder('q')
+            ->select("COUNT(*) ")
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

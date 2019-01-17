@@ -100,4 +100,9 @@ class Quote
 
         return $this;
     }
+    
+    public function getCreatedate() : ?string
+    {
+        return $this->created->format('Y-m-d H:i:s');
+    }
 }

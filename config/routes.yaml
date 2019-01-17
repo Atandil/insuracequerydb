@@ -1,3 +1,28 @@
 index:
     path: /
     controller: App\Controller\DefaultController::index
+
+quote:
+    path: /quote
+    controller: App\Controller\QuoteController::index
+
+quote_json:
+    path: /quote/json
+    controller: App\Controller\QuoteController::jsondata
+
+
+quote_show:
+    path: /quote/show/{id}
+    controller: App\Controller\QuoteController::show
+
+quote_add:
+    path: /quote/add
+    controller: App\Controller\QuoteController::add
+    
+quote_edit:
+    path: /quote/edit/{id}
+    controller: App\Controller\QuoteController::edit
+    
+quote_delete:
+    path: /quote/delete/{id}
+    controller: App\Controller\QuoteController::delete
